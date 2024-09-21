@@ -1,17 +1,13 @@
 'use client'
 
-import { Prisma } from '@prisma/client'
-import { useState, useEffect } from 'react'
-import { Typography, Input, Button, Space, Spin, Card } from 'antd'
-import { EditOutlined, CopyOutlined, SaveOutlined } from '@ant-design/icons'
-const { Title, Text } = Typography
 import { useUserContext } from '@/core/context'
-import { useRouter, useParams } from 'next/navigation'
-import { useUploadPublic } from '@/core/hooks/upload'
-import { useSnackbar } from 'notistack'
-import dayjs from 'dayjs'
 import { Api } from '@/core/trpc'
 import { PageLayout } from '@/designSystem'
+import { Card, Space, Spin, Typography } from 'antd'
+import { useParams, useRouter } from 'next/navigation'
+import { useSnackbar } from 'notistack'
+import { useEffect, useState } from 'react'
+const { Title, Text } = Typography
 
 export default function PasswordDetailsPage() {
   const router = useRouter()
@@ -35,7 +31,7 @@ export default function PasswordDetailsPage() {
 
   useEffect(() => {
     if (credential) {
-      setNewName(credential.password)
+      setNewName(credential.passphrase)
     }
   }, [credential])
 
@@ -47,7 +43,7 @@ export default function PasswordDetailsPage() {
     try {
       await updateCredential({
         where: { id: params.passwordId },
-        data: { password: newName },
+        data: { password: credential.password },
       })
       setIsEditing(false)
       refetch()
@@ -93,7 +89,7 @@ export default function PasswordDetailsPage() {
           size="large"
           style={{ width: '100%', marginTop: 24 }}
         >
-          <div>
+          {/* <div>
             <Text strong>Name:</Text>
             {isEditing ? (
               <Input
@@ -134,7 +130,7 @@ export default function PasswordDetailsPage() {
             >
               Copy
             </Button>
-          </div>
+          </div> */}
 
           <div>
             <Text strong>Created:</Text>
